@@ -1,14 +1,16 @@
 package kubefuzzer
 
 import (
-	"bufio",
-	"fmt",
-	"log",
-	"os",
-	"path/filepath",
-	"sync",
-	"k8s.io/client-go/kubernetes",
-	"k8s.io/client-go/tools/clientcmd",
+	"bufio"
+	"flag"
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+	"sync"
+
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/homedir"
 )
 
@@ -85,7 +87,17 @@ func processChunk(chunk []string, wg *sync.WaitGroup) {
 
 // main function to read endpoints, split them into chunks, and process them with threads
 func main() {
-	endpoints, err := readEndpoints("endpoints.txt")
+	// Define a command line flag for the dictionary filename
+	filePath := flag.String("file", "", "Path to the endpoints file")
+	flag.Parse()
+
+	// Check if the file path is provided
+	if *filePath == "" {
+		fmt.Println("Usage: kubefuzzer -file <path_to_endpoints_file>")
+		os.Exit(1)
+	}
+
+	endpoints, err := readEndpoints(*filePath)
 	if err != nil {
 		log.Fatalf("Failed to read endpoints: %v", err)
 	}
