@@ -47,7 +47,6 @@ KubeFuzzer supports these security objectives by automating API endpoint discove
 
 ### Prerequisites
 
-- Python 3.x
 - Access to Kubernetes cluster (direct, kubeconfig, or in-cluster)
 - [kubectl](https://kubernetes.io/docs/reference/kubectl/) (optional, for manual verification)
 
@@ -75,7 +74,7 @@ pip install -r requirements.txt
    Use your kubeconfig file or service account token to authenticate to the Kubernetes API.
 
    ```bash
-   python kube_fuzzer.py --dictionary endpoints.txt --config ~/.kube/config
+   kube_fuzzer --dictionary endpoints.txt --config ~/.kube/config
    ```
 
    Adjust parameters as needed (see script flags for details).
